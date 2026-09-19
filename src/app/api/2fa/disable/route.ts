@@ -102,7 +102,7 @@ export async function POST(request: Request) {
   const secret = decryptSecret(twoFactor.secret);
   if (!(await verifyTotp(token, secret))) {
     const { lockedUntil } = await recordFailedAttempt(userId);
-    return badRequest({
+    badRequest({
       code: 'two-factor-error-invalid-code',
       message: 'Invalid verification code',
       ...(lockedUntil && { lockedUntil }),
